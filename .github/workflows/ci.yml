@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    name: 密钥扫描
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # 全历史，方便排查是否曾提交过密钥
+
+      - name: 扫全仓库（工作区）
+        shell: pwsh
+        run: ./scripts/verify-no-secrets.ps1
+
+      - name: 扫 git 历史（曾提交过的密钥也算泄露）
+        shell: bash
+        run: |
+          echo "::group::历史里出现过的密钥特征"
+          found=0
+          # 逐条提交地扫，只报提交号与规则名，不打印内容
+          while read -r sha; do
+            if git show --no-color --format= --patch "$sha" 2>/dev/null \
+               | grep -Eq 'sk-[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY-----'; then
+              echo "::error::提交 $sha 里出现疑似凭证特征（内容不回显）"
+              found=1
+            fi
+          done < <(git rev-list --all --max-count=300)
+          echo "::endgroup::"
+          if [ "$found" = "1" ]; then
+            echo "处置：① 先吊销该凭证 ② 换新值只放环境变量/凭证库 ③ 用 git filter-repo 清历史 ④ 通知协作者重新 clone"
+            echo "详见 docs/credentials.md"
+            exit 1
+          fi
+          echo "历史干净 ✅"
+
+  syntax:
+    name: 语法检查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: 校验所有 ESM 源文件能解析
+        shell: bash
+        run: |
+          set -e
+          fail=0
+          while IFS= read -r f; do
+            if ! node --check "$f" 2>/dev/null; then
+              echo "::error file=$f::语法检查失败"
+              fail=1
+            fi
+          done < <(find plugins -type f \( -name '*.js' -o -name '*.mjs' \) \
+                     -not -path '*/node_modules/*' \
+                     -not -path '*/lib/*')      # lib/ 是构建产物，另有一道检查
+          exit $fail
+
+      - name: 校验 package.json 都是合法 JSON 且元数据齐全
+        shell: bash
+        run: |
+          set -e
+          for f in plugins/*/package.json; do
+            node -e '
+              const fs = require("fs");
+              const p = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+              const missing = ["name", "version", "description", "license"].filter(k => !p[k]);
+              if (missing.length) { console.error(`${process.argv[1]} 缺少字段: ${missing.join(", ")}`); process.exit(1); }
+              if (/[^\x00-\x7F]/.test(p.name)) { console.error("包名必须是 ASCII"); process.exit(1); }
+              console.log("ok:", p.name + "@" + p.version);
+            ' "$f"
+          done
+
+      - name: 检查文档里的占位符没被替换成真值
+        shell: bash
+        run: |
+          if grep -rnE 'D:\\+Users\\|/Users/[a-z]|C:\\+Users' --include='*.md' --include='*.js' --include='*.mjs' --include='*.yml' . ; then
+            echo "::error::文档/代码里出现了个人绝对路径，请改成 \$DSH_HOME 之类的占位符"
+            exit 1
+          fi
+          echo "未发现个人绝对路径 ✅"
