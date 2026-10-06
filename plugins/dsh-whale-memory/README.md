@@ -61,10 +61,13 @@ v7 ~ v9（2026-10-06，借鉴 Hermes Agent 的 `tools/memory_tool.py` + `tools/t
 12. **分节用量指示**：每节标题带 `〔字数/上限 · %〕`（Hermes `[% — current/limit chars]` 惯例）。
 13. **预算装配**：v6 及更早是整块硬截，footer 维护指引被天天切掉（日志长期 `5205/5200`）；
     v7 起 footer 永远保留、正文按优先级（persona > 摘要 > 索引）填充，超预算从低优先级尾部收缩。
-14. **压缩槽真接线（可选，配合 [`dsh-aux-models`](../dsh-aux-models/)）**：若装了设置页「辅助模型」面板，
+14. **压缩槽真接线（可选，配合 [`dsh-aux-models`](https://github.com/ponm3ay/dsh-aux-models)）**：若装了设置页「辅助模型」面板，
     摘要调用前会**现读** `$DSH_HOME/orchestra/aux-models.json` 的 `compression` 槽，custom 时覆盖
     provider/model/超时（面板保存后下一次摘要即生效，无需重载）；auto / 缺档 / 坏档一律回落
     `plugin.json` 默认。实测日志：`[digest] [v8] 压缩槽面板覆盖生效：zai/glm-5.3-flash（超时 90s）`。
+    ⚠️ **路径要对齐**：本插件读固定路径 `orchestra/aux-models.json`，而面板默认落盘
+    `$DSH_HOME/aux-models.json`——两个都装时，在面板那一行补上
+    `config: { stateFile: orchestra/aux-models.json }`（本机就是这么配的），别指望默认值刚好对上。
 15. **日志与调用同源（v9）**：`resolveDigestRoute()` 一次解析生效路由，「开始整理」行与「覆盖生效」行不再
     一个印旧默认、一个印真实路由（v8 实测踩到过，容易误判）。
 
