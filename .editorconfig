@@ -1,0 +1,26 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+max_line_length = off
+
+[*.md]
+trim_trailing_whitespace = false
+
+# Windows PowerShell 5.1 按 GBK 读无 BOM 的 UTF-8，中文会把脚本解析炸掉 —— 必须带 BOM
+[*.{ps1,psm1}]
+charset = utf-8-bom
+
+[*.sh]
+indent_size = 2
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[*.json]
+insert_final_newline = true

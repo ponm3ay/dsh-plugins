@@ -1,0 +1,55 @@
+{
+  "name": "dsh-whale-backdrop",
+  "version": "0.1.0",
+  "description": "DSH 桌面端背景插件：把 assets/ 里的画铺在整窗后面，并让面板半透明透出图。仓库不附带图片，请自备。不改 DSH 本体源码。",
+  "license": "MIT",
+  "type": "module",
+  "main": "entry.js",
+  "exports": {
+    ".": "./entry.js",
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "assets",
+    "cordis.patch.yml",
+    "entry.js",
+    "README.md",
+    "package.json"
+  ],
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "background",
+    "wallpaper",
+    "theme",
+    "backdrop"
+  ],
+  "author": "ponm3ay",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ponm3ay/dsh-plugins.git",
+    "directory": "plugins/dsh-whale-backdrop"
+  },
+  "homepage": "https://github.com/ponm3ay/dsh-plugins/tree/main/plugins/dsh-whale-backdrop#readme",
+  "bugs": {
+    "url": "https://github.com/ponm3ay/dsh-plugins/issues"
+  }
+}

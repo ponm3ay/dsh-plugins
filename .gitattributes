@@ -1,0 +1,17 @@
+# 统一换行：脚本在任何平台都能直接跑
+# （CRLF 会让 bash 报 "bad interpreter: /usr/bin/env bash^M"）
+* text=auto eol=lf
+
+# Windows 专用脚本保持 CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制文件不做换行转换
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary

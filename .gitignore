@@ -1,0 +1,44 @@
+# ── 凭证与密钥（永远不要提交）───────────────────────────────
+.env
+.env.*
+!.env.example
+*.credentials.yaml
+.credentials.yaml
+credentials.json
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+secrets/
+.secrets/
+.npmrc
+.pypirc
+.netrc
+
+# ── 依赖与构建产物 ─────────────────────────────────────────
+node_modules/
+.pnpm-store/
+dist/
+build/
+*.tsbuildinfo
+
+# ── 运行时/本地状态 ───────────────────────────────────────
+*.log
+logs/
+.cache/
+tmp/
+temp/
+*.tmp
+*.bak
+*.bak-*
+.bak-*
+
+# ── 编辑器与系统 ─────────────────────────────────────────
+.vscode/*
+!.vscode/settings.json.example
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,12 @@
+# dsh-subagent-usage bundle layer: mounted when this package is registered as a
+# profile bundle, so a profile gets the entry row without hand-editing
+# cordis.patch.yml. A profile-level patch can still disable the row by id.
+#
+# The row id is what the settings/plugin list shows and what a `- id:` override
+# addresses; the name is the package this profile resolves from its own
+# node_modules (a `link:` dependency, so the source of truth stays the plugin
+# directory).
+
+- insert:
+    - id: subagent-usage
+      name: dsh-subagent-usage
