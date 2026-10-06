@@ -22,8 +22,9 @@
 | [`dsh-subagent-usage`](plugins/dsh-subagent-usage/) | 在对话里显示本轮**实际用的模型 / 推理等级 / token 消耗**，子代理会话尤其好用 | Host + Client | 0.1.0 |
 | [`dsh-whale-memory`](plugins/dsh-whale-memory/) | **长期记忆**：自动捕获会话流水、自动注入记忆摘要、会话结束自动用便宜模型压缩成摘要 | Host | 0.1.0 |
 | [`dsh-whale-backdrop`](plugins/dsh-whale-backdrop/) | 给界面铺一张**背景画** + 面板半透明，每次刷新随机换图 | Host + Client | 0.1.0 |
+| [`dsh-aux-models`](plugins/dsh-aux-models/) | 设置页**「辅助模型」面板**：照 Hermes `auxiliary.<task>` 布局按任务选模型（服务商/模型/超时），选型落盘 `orchestra/aux-models.json` | Host + Client | 0.1.0 |
 
-> 三个插件都遵循同一条设计约束：**只做加法**。注册自己的服务、路由、样式与钩子，卸载即还原，
+> 四个插件都遵循同一条设计约束：**只做加法**。注册自己的服务、路由、样式与钩子，卸载即还原，
 > 不修改 DSH 本体的任何文件。
 
 ---

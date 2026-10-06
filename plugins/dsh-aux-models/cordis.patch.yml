@@ -1,0 +1,9 @@
+# dsh-aux-models bundle 层：注册为 profile bundle 时插入 entry 行，
+# profile 不必手改 cordis.patch.yml。要禁用该行按 id（aux-models-panel）disable。
+#
+# Install EITHER as a bundle OR as a profile patch row — never both
+# (a duplicate id is rejected by the client-modules table).
+
+- insert:
+    - id: aux-models-panel
+      name: dsh-aux-models

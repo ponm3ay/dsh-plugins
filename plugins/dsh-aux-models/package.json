@@ -1,0 +1,54 @@
+{
+  "name": "dsh-aux-models",
+  "version": "0.1.0",
+  "description": "设置页「辅助模型」面板：照 Hermes auxiliary.<task> 布局，按任务选择辅助模型（服务商/模型/超时）。选型落盘 orchestra/aux-models.json，上下文压缩槽真接线 whale-memory 摘要。不改 DSH 本体源码。",
+  "license": "MIT",
+  "type": "module",
+  "main": "entry.js",
+  "exports": {
+    ".": "./entry.js",
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "build-client.mjs",
+    "cordis.patch.yml",
+    "entry.js",
+    "README.md",
+    "package.json"
+  ],
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "cordis-plugin",
+    "auxiliary-model",
+    "settings",
+    "routing"
+  ],
+  "author": "ponm3ay",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ponm3ay/dsh-plugins.git",
+    "directory": "plugins/dsh-aux-models"
+  },
+  "homepage": "https://github.com/ponm3ay/dsh-plugins/tree/main/plugins/dsh-aux-models#readme",
+  "bugs": {
+    "url": "https://github.com/ponm3ay/dsh-plugins/issues"
+  }
+}
