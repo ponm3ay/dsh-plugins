@@ -1,5 +1,8 @@
 # dsh-plugins
 
+[![CI](https://github.com/ponm3ay/dsh-plugins/actions/workflows/ci.yml/badge.svg)](https://github.com/ponm3ay/dsh-plugins/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 **A collection of plugins for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH).**
 
 本仓库收录「大肥鱼」为 DSH 写的插件（本地插件源码 + 安装/回滚脚本 + 第三方插件清单）。
