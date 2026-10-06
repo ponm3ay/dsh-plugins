@@ -9,7 +9,7 @@
 | 环节 | 钩子 | 行为 |
 |---|---|---|
 | 捕获 | `session/event` | 顶层会话的表面事件（用户/助手/工具/回合）以 JSONL 追加到 `memory/journal/<sid>.jsonl`，内存缓冲 + 2 秒批量落盘，单行 8KB、单文件 512KB 封顶 |
-| 回忆 | `system-prompt/assemble` | 每个系统提示词末尾注入 `whale-memory` 一节：最近 2 条会话摘要 + `index.md` 索引 + 维护指引，总长 ≤ 4.2KB |
+| 回忆 | `system-prompt/assemble` | 每个系统提示词末尾注入 `whale-memory` 一节：persona 养成区 + 最近 2 条会话摘要 + `index.md` 索引 + 维护指引，总长 ≤ 8KB（**footer 永远保留**，超预算按优先级收缩正文并按节标注用量） |
 | 整理 | `session/disposed` + 启动兜底 | 会话结束且流水 ≥ 8KB 时，调用便宜模型（默认 `xiaomi/mimo-v2.6-flash`）压成 ≤400 字摘要写入 `memory/digests/<sid>.md`；启动 15 秒后补扫上次没来得及整理的流水 |
 
 **验收记录（2026-10-02，真机端到端实测）**：插件 active；捕获 ✓（journal 实时增长，已剔 3 行系统噪声）；
@@ -48,6 +48,29 @@ v5 与 v6（2026-10-02 深夜，两次「换名强制重载」的连续迭代）
 都会触发整理 —— 所以**插件在会话进行中被重载时，会生成一份「中间态快照摘要」**（本会话即如此：70609 字节
 → 724 字，约 40 秒；无害，但会花一次便宜模型调用）。
 
+v7 ~ v9（2026-10-06，借鉴 Hermes Agent 的 `tools/memory_tool.py` + `tools/threat_patterns.py` 实证设计）：
+
+10. **注入前威胁快照扫描**：persona / 摘要 / 索引三节各自过一遍模式库——英文经典注入句式、
+    **中文注入句式**（Hermes 原版纯英文，扫不到中文记忆）、密钥形状、17 个隐形 Unicode 字符。
+    模式命中 → **该节**以 `[BLOCKED: …]` 占位注入；只含隐形字符 → 从快照剥离。
+    **只动快照、不动原文件**（Hermes 的 frozen-snapshot 原则：live 文件保留原文，用户能看到、能删；
+    静默丢弃会让攻击隐形）。命中同时写 `plugin-log.txt` warn 行。
+    模式设计照 Hermes 的纪律：锚攻击行为词、不锚 bossy 英文；有界填充 `(?:\w+\s+){0,8}` 防塞词绕过。
+11. **每会话冻结快照**：同一会话内记忆区块**字节稳定** → 前缀缓存不被打碎（Hermes frozen snapshot 模式）；
+    persona 编辑 / 新摘要**下个会话**才进区块（编辑内容本身已在当轮上下文，不会丢）。无会话 id 的作用域退回 15 秒缓存。
+12. **分节用量指示**：每节标题带 `〔字数/上限 · %〕`（Hermes `[% — current/limit chars]` 惯例）。
+13. **预算装配**：v6 及更早是整块硬截，footer 维护指引被天天切掉（日志长期 `5205/5200`）；
+    v7 起 footer 永远保留、正文按优先级（persona > 摘要 > 索引）填充，超预算从低优先级尾部收缩。
+14. **压缩槽真接线（可选，配合 [`dsh-aux-models`](../dsh-aux-models/)）**：若装了设置页「辅助模型」面板，
+    摘要调用前会**现读** `$DSH_HOME/orchestra/aux-models.json` 的 `compression` 槽，custom 时覆盖
+    provider/model/超时（面板保存后下一次摘要即生效，无需重载）；auto / 缺档 / 坏档一律回落
+    `plugin.json` 默认。实测日志：`[digest] [v8] 压缩槽面板覆盖生效：zai/glm-5.3-flash（超时 90s）`。
+15. **日志与调用同源（v9）**：`resolveDigestRoute()` 一次解析生效路由，「开始整理」行与「覆盖生效」行不再
+    一个印旧默认、一个印真实路由（v8 实测踩到过，容易误判）。
+
+> ⚠️ 压缩/摘要这类**不需要思考**的槽位别选 `zai/glm-5.3-flash`——上游会拒：
+> `This model always engages in thinking and cannot be disabled`。留 `xiaomi/mimo-v2.6-flash` 即可。
+
 ## 记忆库布局（`$DSH_HOME/memory/`，可用 `DSH_MEMORY_DIR` 覆盖）
 
 ```
@@ -64,16 +87,20 @@ plugin-log.txt   插件日志（只读排查用）
 
 ```json
 {
-  "capture": { "enabled": true, "topLevelOnly": true,
-               "journalCapBytes": 524288, "flushIntervalMs": 2000 },
-  "recall":  { "enabled": true, "recentDigests": 2, "maxBlockChars": 5200,
-               "maxPersonaChars": 2600, "maxIndexChars": 1400, "maxDigestChars": 1400 },
-  "digest":  { "enabled": true, "minJournalBytes": 8192,
-               "provider": "xiaomi", "model": "mimo-v2.6-flash", "maxTokens": 900 }
+  "capture": { "enabled": true, "topLevelOnly": true, "journalCapBytes": 524288,
+               "flushIntervalMs": 2000, "maxLineChars": 8192, "toolResultChars": 4096 },
+  "recall":  { "enabled": true, "recentDigests": 2, "maxBlockChars": 8000,
+               "maxPersonaChars": 4200, "maxIndexChars": 1500, "maxDigestChars": 1400 },
+  "digest":  { "enabled": true, "minJournalBytes": 8192, "journalSliceBytes": 307200,
+               "provider": "xiaomi", "model": "mimo-v2.6-flash", "maxTokens": 900,
+               "keepJournals": 40, "keepDigests": 60 }
 }
 ```
 
-- 摘要用的模型换成 `tokenhub/hy3` 等也只需改 `digest.provider/model`。
+- 预算按「persona 优先」分配：`maxPersonaChars 4200` / 摘要 `1400×2` / 索引 `1500`，
+  合计仍受 `maxBlockChars 8000` 约束（超了从索引、摘要依次收缩，footer 不动）。
+  persona 早期上限是 2600，会把养成区尾部（近期纠正史）切掉——已调到 4200。
+- 摘要用的模型换成 `tokenhub/hy3` 等也只需改 `digest.provider/model`；装了「辅助模型」面板则以面板槽位为准。
 - `digest.enabled=false` 时只捕获+回忆，整理交给 `memory` 技能手动做。
 
 ## 纪律
