@@ -8,7 +8,7 @@
 本仓库收录「大肥鱼」为 DSH 写的插件（本地插件源码 + 安装/回滚脚本 + 第三方插件清单）。
 每个插件都能单独安装、单独卸载，**不改 DSH 本体源码**。
 
-- 🧩 自研插件源码 → [`plugins/`](plugins/)
+- 🧩 插件源码 → [`plugins/`](plugins/)
 - 🔐 凭证与密钥规范 → [`docs/credentials.md`](docs/credentials.md)
 - 📦 第三方插件清单（不打包，只给出处与安装命令）→ [`docs/third-party-plugins.md`](docs/third-party-plugins.md)
 - 🛠 安装 / 卸载 / 回滚 → [`docs/install.md`](docs/install.md)
