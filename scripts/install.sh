@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# dsh-plugins · 安装脚本（macOS / Linux）
+# dsh-model-routing · 安装脚本（macOS / Linux）
 #
 #   bash scripts/install.sh -p desktop
 #   bash scripts/install.sh -p desktop --plugin dsh-subagent-usage

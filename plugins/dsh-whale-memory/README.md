@@ -1,6 +1,6 @@
 # dsh-whale-memory —— 长期记忆区
 
-> 属于 [dsh-plugins](https://github.com/ponm3ay/dsh-plugins) 仓库 · MIT · DSH 插件
+> 属于 [dsh-model-routing](https://github.com/ponm3ay/dsh-model-routing) 仓库 · MIT · DSH 插件
 
 给 DSH 装的「长期记忆」宿主插件：跨会话记忆不再被上下文窗口卡死。
 

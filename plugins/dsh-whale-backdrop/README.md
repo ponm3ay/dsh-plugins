@@ -1,6 +1,6 @@
 # dsh-whale-backdrop
 
-> 属于 [dsh-plugins](https://github.com/ponm3ay/dsh-plugins) 仓库 · MIT · DSH 插件
+> 属于 [dsh-model-routing](https://github.com/ponm3ay/dsh-model-routing) 仓库 · MIT · DSH 插件
 
 给 DSH 桌面端铺一张背景画：整窗铺画，面板半透明透出图。
 

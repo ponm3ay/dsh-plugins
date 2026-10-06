@@ -1,6 +1,6 @@
 ﻿<#
 .SYNOPSIS
-    把 dsh-plugins 里的插件安装到本机 DSH profile。
+    把 dsh-model-routing 里的插件安装到本机 DSH profile。
 
 .DESCRIPTION
     做四件事：备份 → 挂 link: 依赖 → 加进 dsh.profile.bundles → 跑 pnpm install。
@@ -106,7 +106,7 @@ if (-not $node) {
 if (-not $node) { Fail "找不到 node（插件是 ESM，改 manifest 与装依赖都要它）" }
 Write-Ok "node：$node"
 
-$patchScript = Join-Path ([IO.Path]::GetTempPath()) ("dsh-plugins-patch-{0}.mjs" -f $stamp)
+$patchScript = Join-Path ([IO.Path]::GetTempPath()) ("dsh-model-routing-patch-{0}.mjs" -f $stamp)
 # 注意：不在这里手工拼 JSON —— PowerShell 5.1 的 ConvertTo-Json 对 PSCustomObject
 # 会输出不带引号的属性名（node 直接 JSON.parse 会炸）。交给 node 自己扫目录。
 $filterCsv = ($Plugin -join ',')

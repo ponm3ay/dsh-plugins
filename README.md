@@ -1,12 +1,22 @@
-# dsh-plugins
+# dsh-model-routing
 
-[![CI](https://github.com/ponm3ay/dsh-plugins/actions/workflows/ci.yml/badge.svg)](https://github.com/ponm3ay/dsh-plugins/actions/workflows/ci.yml)
+[![CI](https://github.com/ponm3ay/dsh-model-routing/actions/workflows/ci.yml/badge.svg)](https://github.com/ponm3ay/dsh-model-routing/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**A collection of plugins for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH).**
+**DSH 插件集：按任务给不同模型派活 + 跨会话长期记忆。**
+（另含两个装饰件：子代理用量显示、界面背景。）
 
-本仓库收录「大肥鱼」为 DSH 写的插件（本地插件源码 + 安装/回滚脚本 + 第三方插件清单）。
-每个插件都能单独安装、单独卸载，**不改 DSH 本体源码**。
+四只插件各管一段：
+
+| 能力 | 插件 |
+|---|---|
+| **按任务选模型**（设置页「辅助模型」槽位面板，落盘机器可读的槽位表） | [`dsh-aux-models`](plugins/dsh-aux-models/) |
+| **跨会话长期记忆**（流水捕获 → 摘要注入 → 自动整理，注入前威胁扫描） | [`dsh-whale-memory`](plugins/dsh-whale-memory/) |
+| 子代理用量显示（本轮实际模型 / 推理等级 / token） | [`dsh-subagent-usage`](plugins/dsh-subagent-usage/) |
+| 界面背景 + 面板半透明 | [`dsh-whale-backdrop`](plugins/dsh-whale-backdrop/) |
+
+本仓库收录「大肥鱼」为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（DSH）写的插件
+（本地插件源码 + 安装/回滚脚本 + 第三方插件清单）。每个插件都能单独安装、单独卸载，**不改 DSH 本体源码**。
 
 - 🧩 插件源码 → [`plugins/`](plugins/)
 - 🔐 凭证与密钥规范 → [`docs/credentials.md`](docs/credentials.md)
@@ -35,8 +45,8 @@
 
 ```bash
 # 1) 取得源码
-git clone https://github.com/ponm3ay/dsh-plugins.git
-cd dsh-plugins
+git clone https://github.com/ponm3ay/dsh-model-routing.git
+cd dsh-model-routing
 
 # 2) 安装（自动找 $DSH_HOME/profiles/<profile> 并挂载本地插件）
 pwsh -File scripts/install.ps1 -Profile desktop          # Windows
@@ -89,7 +99,7 @@ config:
 ## 仓库结构
 
 ```
-dsh-plugins/
+dsh-model-routing/
 ├── plugins/                    # 自研插件源码，一个目录一个插件
 │   ├── dsh-subagent-usage/
 │   ├── dsh-whale-memory/

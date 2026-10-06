@@ -25,5 +25,5 @@
 - `scripts/verify-no-secrets.ps1` — 提交前密钥自查，CI 同款。
 - `.github/workflows/ci.yml` — 密钥扫描 + ESM 语法检查。
 
-[Unreleased]: https://github.com/ponm3ay/dsh-plugins/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/ponm3ay/dsh-plugins/releases/tag/v0.1.0
+[Unreleased]: https://github.com/ponm3ay/dsh-model-routing/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/ponm3ay/dsh-model-routing/releases/tag/v0.1.0

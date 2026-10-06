@@ -50,11 +50,11 @@
   "author": "ponm3ay",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ponm3ay/dsh-plugins.git",
+    "url": "git+https://github.com/ponm3ay/dsh-model-routing.git",
     "directory": "plugins/dsh-subagent-usage"
   },
-  "homepage": "https://github.com/ponm3ay/dsh-plugins/tree/main/plugins/dsh-subagent-usage#readme",
+  "homepage": "https://github.com/ponm3ay/dsh-model-routing/tree/main/plugins/dsh-subagent-usage#readme",
   "bugs": {
-    "url": "https://github.com/ponm3ay/dsh-plugins/issues"
+    "url": "https://github.com/ponm3ay/dsh-model-routing/issues"
   }
 }

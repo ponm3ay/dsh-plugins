@@ -4,7 +4,7 @@
 
 请**不要**开公开 issue。走 GitHub 的私密渠道：
 
-- [Security Advisory](https://github.com/ponm3ay/dsh-plugins/security/advisories/new)（首选）
+- [Security Advisory](https://github.com/ponm3ay/dsh-model-routing/security/advisories/new)（首选）
 - 或者给仓库所有者发一封邮件说明复现步骤
 
 报告里请包含：受影响的插件与版本、复现步骤、影响面（例如「插件可以读任意文件」）、

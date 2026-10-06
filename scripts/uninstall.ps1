@@ -1,6 +1,6 @@
 ﻿<#
 .SYNOPSIS
-    从本机 DSH profile 卸下 dsh-plugins 的插件（卸载 / 回滚）。
+    从本机 DSH profile 卸下 dsh-model-routing 的插件（卸载 / 回滚）。
 
 .DESCRIPTION
     反向操作：从 dependencies 摘掉 link: 依赖 → 从 dsh.profile.bundles 摘掉条目 → pnpm install。
@@ -93,7 +93,7 @@ if (-not $node) {
 }
 if (-not $node) { Fail "找不到 node" }
 
-$script = Join-Path ([IO.Path]::GetTempPath()) ("dsh-plugins-unpatch-{0}.mjs" -f $stamp)
+$script = Join-Path ([IO.Path]::GetTempPath()) ("dsh-model-routing-unpatch-{0}.mjs" -f $stamp)
 $code = @'
 import fs from 'node:fs';
 const [manifestPath, namesCsv] = process.argv.slice(2);

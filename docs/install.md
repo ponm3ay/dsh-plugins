@@ -25,7 +25,7 @@ macOS/Linux 常见 `~/.dsh`）。**不确定就用 DSH 的插件页看一眼路�
 ## 1. 一键安装
 
 ```powershell
-# Windows（在 clone 下来的 dsh-plugins 目录里）
+# Windows（在 clone 下来的 dsh-model-routing 目录里）
 pwsh -File scripts/install.ps1 -Profile desktop
 # 只装一个
 pwsh -File scripts/install.ps1 -Profile desktop -Plugin dsh-subagent-usage
@@ -65,7 +65,7 @@ cp pnpm-lock.yaml pnpm-lock.yaml.bak-$(date +%Y%m%d-%H%M%S)
 ```json
 {
   "dependencies": {
-    "dsh-subagent-usage": "link:D:/path/to/dsh-plugins/plugins/dsh-subagent-usage"
+    "dsh-subagent-usage": "link:D:/path/to/dsh-model-routing/plugins/dsh-subagent-usage"
   },
   "dsh": {
     "profile": {

@@ -1,6 +1,6 @@
 # dsh-subagent-usage — 子代理「模型 / 推理等级 / token」显示
 
-> 属于 [dsh-plugins](https://github.com/ponm3ay/dsh-plugins) 仓库 · MIT · DSH 插件
+> 属于 [dsh-model-routing](https://github.com/ponm3ay/dsh-model-routing) 仓库 · MIT · DSH 插件
 
 在每个会话的对话里显示这次跑的到底是**哪个模型**、**什么推理等级**、**烧了多少 token**。
 重点场景是子代理：打开某个子代理的会话，就能随时查它用了什么、花了多少 —— 不往主对话里刷报告，
