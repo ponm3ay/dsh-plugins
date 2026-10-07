@@ -8,6 +8,15 @@
 
 ## [Unreleased]
 
+### Added
+
+- `plugins/dsh-provider-accent` — 切换模型时把模型选择器里的**供应商分组标题**染成高对比紫
+  （暗 `#a78bfa` / 亮 `#7c3aed`，字重 500→600）。只锚官方**无障碍骨架**
+  （`section[data-menu-group]` / `[data-menu-group-heading]` / `[role="menuitemradio"]` /
+  `[role="listbox"][aria-label^="/model"]` / `body[data-ds-dark-theme]`），对哈希化的
+  CSS module 类名零依赖；不覆盖 `--dsw-alias-label-tertiary`，也不碰命令面板自己的分组标题。
+  带离线自测（`verify/client-test.mjs`，21 项，不需要 DSH）。
+
 ## [0.1.0] — 2026-10-06
 
 首个公开版本。

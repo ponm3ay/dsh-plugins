@@ -4,9 +4,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **DSH 插件集：按任务给不同模型派活 + 跨会话长期记忆。**
-（另含两个装饰件：子代理用量显示、界面背景。）
+（另含三个装饰件：子代理用量显示、界面背景、模型供应商高亮。）
 
-四只插件各管一段：
+五只插件各管一段：
 
 | 能力 | 插件 |
 |---|---|
@@ -14,6 +14,7 @@
 | **跨会话长期记忆**（流水捕获 → 摘要注入 → 自动整理，注入前威胁扫描） | [`dsh-whale-memory`](plugins/dsh-whale-memory/) |
 | 子代理用量显示（本轮实际模型 / 推理等级 / token） | [`dsh-subagent-usage`](plugins/dsh-subagent-usage/) |
 | 界面背景 + 面板半透明 | [`dsh-whale-backdrop`](plugins/dsh-whale-backdrop/) |
+| 切换模型时**一眼看清供应商**（模型菜单的分组标题染紫） | [`dsh-provider-accent`](plugins/dsh-provider-accent/) |
 
 本仓库收录「大肥鱼」为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（DSH）写的插件
 （本地插件源码 + 安装/回滚脚本 + 第三方插件清单）。每个插件都能单独安装、单独卸载，**不改 DSH 本体源码**。
@@ -32,9 +33,10 @@
 | [`dsh-subagent-usage`](plugins/dsh-subagent-usage/) | 在对话里显示本轮**实际用的模型 / 推理等级 / token 消耗**，子代理会话尤其好用 | Host + Client | 0.1.0 |
 | [`dsh-whale-memory`](plugins/dsh-whale-memory/) | **长期记忆**：自动捕获会话流水、自动注入记忆摘要（威胁快照扫描 + 每会话冻结）、会话结束自动用便宜模型压缩成摘要 | Host | 0.2.0 |
 | [`dsh-whale-backdrop`](plugins/dsh-whale-backdrop/) | 给界面铺一张**背景画** + 面板半透明，每次刷新随机换图 | Host + Client | 0.1.0 |
+| [`dsh-provider-accent`](plugins/dsh-provider-accent/) | 切换模型时把模型菜单里的**供应商分组标题**染成高对比紫（暗 `#a78bfa` / 亮 `#7c3aed`），只看无障碍骨架、不碰哈希类名 | Host + Client | 0.1.0 |
 | [`dsh-aux-models`](https://github.com/ponm3ay/dsh-aux-models)（**独立仓**） | 设置页**「辅助模型」面板**：按任务选模型（服务商/模型/超时），选型落盘一份机器可读的槽位表 | Host + Client | 0.1.0 |
 
-> 三只插件都遵循同一条设计约束：**只做加法**。注册自己的服务、路由、样式与钩子，卸载即还原，
+> 这些插件都遵循同一条设计约束：**只做加法**。注册自己的服务、路由、样式与钩子，卸载即还原，
 > 不修改 DSH 本体的任何文件。
 >
 > 「辅助模型」面板 2026-10-06 已拆成独立仓库 [`ponm3ay/dsh-aux-models`](https://github.com/ponm3ay/dsh-aux-models)：
@@ -106,7 +108,8 @@ dsh-model-routing/
 ├── plugins/                    # 自研插件源码，一个目录一个插件
 │   ├── dsh-subagent-usage/
 │   ├── dsh-whale-memory/
-│   └── dsh-whale-backdrop/
+│   ├── dsh-whale-backdrop/
+│   └── dsh-provider-accent/
 ├── docs/
 │   ├── credentials.md          # 凭证与密钥规范
 │   ├── install.md              # 安装 / 卸载 / 回滚
@@ -148,6 +151,7 @@ node plugins/dsh-subagent-usage/build-client.mjs      # src/client.js -> lib/cli
 ```bash
 node plugins/dsh-subagent-usage/verify/fold-test.mjs
 node plugins/dsh-subagent-usage/verify/client-test.mjs
+node plugins/dsh-provider-accent/verify/client-test.mjs
 node plugins/dsh-whale-backdrop/build-client.mjs
 pwsh -File scripts/verify-no-secrets.ps1              # 提交前必跑
 ```

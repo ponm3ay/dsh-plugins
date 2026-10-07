@@ -1,0 +1,11 @@
+# dsh-provider-accent bundle layer: mounted when this package is registered as a
+# profile bundle, so a profile gets the entry row without hand-editing
+# cordis.patch.yml. A profile-level patch can still override or disable the row
+# by id (`- id: provider-accent`).
+#
+# Install EITHER as a bundle OR as a profile patch row — never both
+# (a duplicate id is rejected by the client-modules table).
+
+- insert:
+    - id: provider-accent
+      name: dsh-provider-accent

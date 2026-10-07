@@ -1,0 +1,61 @@
+{
+  "name": "dsh-provider-accent",
+  "version": "0.1.0",
+  "description": "切换模型时把「供应商」高亮成对比度紫色：模型菜单与 /model 弹窗里的供应商分组标题改用高对比紫，一眼看清自己在挑哪家。不改 DSH 本体源码。 / High-contrast purple provider headings for the DSH model pickers.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "verify",
+    "cordis.patch.yml",
+    "build-client.mjs",
+    "README.md",
+    "AGENTS.md",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "node build-client.mjs",
+    "test": "node verify/client-test.mjs"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "immediately": true
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "model-selection",
+    "provider",
+    "ui",
+    "purple"
+  ],
+  "author": "ponm3ay",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ponm3ay/dsh-model-routing.git",
+    "directory": "plugins/dsh-provider-accent"
+  },
+  "homepage": "https://github.com/ponm3ay/dsh-model-routing/tree/main/plugins/dsh-provider-accent#readme",
+  "bugs": {
+    "url": "https://github.com/ponm3ay/dsh-model-routing/issues"
+  }
+}
